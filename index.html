@@ -495,7 +495,7 @@
 
   .problems-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     position: relative;
     z-index: 1;
@@ -540,41 +540,68 @@
   /* ============================================
      HOW IT WORKS
   ============================================ */
-  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; position: relative; z-index: 1; }
-  .step { 
+  .steps {
+    display: flex;
+    flex-direction: column;
     position: relative;
-    padding: 2rem;
-    border-radius: var(--radius);
-    border: 1px solid transparent;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 2.5rem;
+    padding: 1.75rem 1rem 1.75rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    border-left: 3px solid transparent;
+    cursor: default;
     transition: all var(--transition-smooth);
+    position: relative;
   }
-  
+
   .step:hover {
-    border-color: var(--current-accent);
+    border-left-color: var(--current-accent);
     background: var(--surface2);
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
   }
-  
+
   .step-num {
     font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--current-accent);
-    margin-bottom: 1rem;
-    transition: all var(--transition-magic);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.08);
+    min-width: 4rem;
+    flex-shrink: 0;
+    line-height: 1;
+    padding-top: 0.15rem;
+    letter-spacing: -0.02em;
+    transition: color var(--transition-smooth);
   }
-  
-  .step-line {
-    position: absolute; top: 2.5rem; left: 3rem; right: -2rem; height: 1px;
-    background: var(--border);
-    transition: all var(--transition-magic);
+
+  .step:hover .step-num { color: var(--current-accent); }
+
+  .step-line { display: none; }
+
+  .step-text {
+    flex: 1;
+    opacity: 0;
+    transform: translateX(-14px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
   }
-  
-  .step:hover .step-line { background: var(--current-accent); }
-  .step:last-child .step-line { display: none; }
-  .step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+
+  .step:hover .step-text {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
   .step:hover h3 { color: var(--current-accent); }
-  .step p { font-size: 0.875rem; color: var(--muted); }
+  .step p { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+
+  @media (hover: none) {
+    .step-text { opacity: 1 !important; transform: none !important; }
+    .step-num { color: var(--current-accent) !important; }
+  }
 
   /* ============================================
      SERVICES
@@ -582,7 +609,7 @@
   #services { background: var(--surface); }
   .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     position: relative;
     z-index: 1;
@@ -831,7 +858,7 @@
   ============================================ */
   .results-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
     position: relative;
     z-index: 1;
@@ -868,7 +895,7 @@
   #differentials { background: var(--surface); }
   .diff-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     position: relative;
     z-index: 1;
@@ -1034,29 +1061,42 @@
   @media (max-width: 900px) {
     .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
     .phone-wrap { order: -1; }
-    .steps { grid-template-columns: 1fr 1fr; }
-    .step-line { display: none; }
     .niche-panel.active { grid-template-columns: 1fr; }
     .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
     .nav-links { display: none; }
     .hamburger { display: flex; }
-    .problems-grid, .services-grid, .diff-grid { grid-template-columns: 1fr; }
     .logo-wordmark { font-size: 1.8rem; }
+    .results-grid { grid-template-columns: repeat(2, 1fr); }
   }
   
   @media (max-width: 600px) {
-    .container { padding: 0 1rem; }
-    .steps { grid-template-columns: 1fr; }
+    .container { padding: 0 0.75rem; }
     .footer-inner { flex-direction: column; align-items: flex-start; }
-    .results-grid { grid-template-columns: 1fr 1fr; }
     .phone { width: 240px; }
     .hero-btns, .cta-btns { flex-direction: column; width: 100%; }
     .btn { width: 100%; justify-content: center; }
-    .problems-grid, .services-grid, .results-grid, .diff-grid { grid-template-columns: 1fr; }
     .logo { gap: 0.75rem; }
     .logo-mark { width: 44px; height: 44px; }
     .logo-wordmark { font-size: 1.55rem; }
     .logo-tagline { font-size: 0.5rem; letter-spacing: 0.18em; }
+    .problems-grid, .services-grid, .diff-grid { gap: 0.75rem; }
+    .results-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+    .problem-card, .service-card, .diff-card { padding: 1.25rem; }
+    .problem-card h3, .service-card h3, .diff-card h3 { font-size: 0.9rem; }
+    .problem-card p, .service-card p, .diff-card p { font-size: 0.78rem; }
+    .service-result { font-size: 0.75rem; }
+    .problem-icon { width: 36px; height: 36px; margin-bottom: 0.75rem; }
+    .service-icon { width: 38px; height: 38px; margin-bottom: 0.9rem; }
+  }
+
+  @media (max-width: 420px) {
+    .problems-grid, .services-grid, .diff-grid { gap: 0.5rem; }
+    .problem-card, .service-card, .diff-card { padding: 0.875rem; }
+    .problem-card h3, .service-card h3, .diff-card h3 { font-size: 0.8rem; }
+    .problem-card p, .service-card p, .diff-card p { font-size: 0.72rem; }
+    .service-result { display: none; }
+    .problem-icon, .service-icon { width: 32px; height: 32px; }
+    .icon { width: 18px; height: 18px; }
   }
 
   .icon { width: 22px; height: 22px; transition: all var(--transition-magic); }
@@ -1192,10 +1232,10 @@
       <h2 class="headline">Como funciona</h2>
     </div>
     <div class="steps reveal">
-      <div class="step"><div class="step-num">01</div><div class="step-line"></div><h3>Diagnóstico operacional</h3><p>Mapeamos gargalos e identificamos onde sua operação perde mais tempo e dinheiro.</p></div>
-      <div class="step"><div class="step-num">02</div><div class="step-line"></div><h3>Desenvolvimento da solução</h3><p>Criamos automações personalizadas para o seu contexto, sem soluções genéricas.</p></div>
-      <div class="step"><div class="step-num">03</div><div class="step-line"></div><h3>Implementação</h3><p>Integramos a tecnologia à sua operação com impacto mínimo na rotina da equipe.</p></div>
-      <div class="step"><div class="step-num">04</div><div class="step-line"></div><h3>Evolução contínua</h3><p>Acompanhamos melhorias, expansão e novas oportunidades de automação.</p></div>
+      <div class="step"><div class="step-num">01</div><div class="step-text"><h3>Diagnóstico operacional</h3><p>Mapeamos gargalos e identificamos onde sua operação perde mais tempo e dinheiro.</p></div></div>
+      <div class="step"><div class="step-num">02</div><div class="step-text"><h3>Desenvolvimento da solução</h3><p>Criamos automações personalizadas para o seu contexto, sem soluções genéricas.</p></div></div>
+      <div class="step"><div class="step-num">03</div><div class="step-text"><h3>Implementação</h3><p>Integramos a tecnologia à sua operação com impacto mínimo na rotina da equipe.</p></div></div>
+      <div class="step"><div class="step-num">04</div><div class="step-text"><h3>Evolução contínua</h3><p>Acompanhamos melhorias, expansão e novas oportunidades de automação.</p></div></div>
     </div>
   </div>
 </section>
