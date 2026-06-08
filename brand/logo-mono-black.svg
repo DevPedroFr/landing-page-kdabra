@@ -1,0 +1,33 @@
+<svg viewBox="0 0 300 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 
+    MONO BLACK — Para uso sobre fundos claros ou impressão.
+    Fundo transparente.
+  -->
+  <defs>
+    <style><![CDATA[
+      @import url(https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=DM+Mono:wght@400&display=swap);
+    ]]></style>
+  </defs>
+
+  <!-- Mark box outline only -->
+  <rect x="14" y="12" width="56" height="56" rx="14" stroke="rgba(17,17,21,0.30)" stroke-width="1" fill="rgba(17,17,21,0.06)"/>
+
+  <!-- Icon (all black) -->
+  <svg x="14" y="12" width="56" height="56" viewBox="0 0 64 64" fill="none">
+    <ellipse cx="31" cy="26" rx="22" ry="6.5" stroke="#111115" stroke-width="3.5"/>
+    <path d="M18 31H44L41.5 49C41.1 51.9 38.63 54 35.7 54H26.3C23.37 54 20.9 51.9 20.5 49L18 31Z" fill="rgba(17,17,21,0.12)" stroke="#111115" stroke-width="3.5"/>
+    <path d="M41 12L55 5" stroke="#111115" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M46 8L58 2" stroke="#111115" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M49 16L52 13" stroke="#111115" stroke-width="3" stroke-linecap="round"/>
+    <path d="M21 17L23 19" stroke="#111115" stroke-width="3" stroke-linecap="round"/>
+    <path d="M25 12L27 14" stroke="#111115" stroke-width="3" stroke-linecap="round"/>
+  </svg>
+
+  <!-- Wordmark -->
+  <text x="82" y="44" fill="#111115" font-size="29" font-weight="600"
+        font-family="'Cormorant Garamond', Georgia, serif" letter-spacing="1.5">KDABRA</text>
+
+  <!-- Tagline -->
+  <text x="84" y="59" fill="rgba(17,17,21,0.55)" font-size="6.8"
+        font-family="'DM Mono', 'Courier New', monospace" letter-spacing="3">MAGIA EM TECNOLOGIA</text>
+</svg>
