@@ -1,0 +1,25 @@
+<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Rounded background -->
+  <rect width="64" height="64" rx="14" fill="#111115"/>
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <rect x="0.5" y="0.5" width="63" height="63" rx="13.5" stroke="rgba(245,194,0,0.28)" stroke-width="1"/>
+
+  <!-- Cauldron ellipse (top rim) -->
+  <ellipse cx="31" cy="27" rx="17" ry="5" stroke="#f0f0f2" stroke-width="3" fill="none"/>
+  <!-- Cauldron body -->
+  <path d="M14 32H48L45.2 50C44.8 52.9 42.3 55 39.4 55H22.6C19.7 55 17.2 52.9 16.8 50L14 32Z" fill="rgba(240,240,242,0.36)" stroke="#f0f0f2" stroke-width="3"/>
+  <!-- Stick / varinha -->
+  <path d="M39 13L52 7" stroke="#f0f0f2" stroke-width="3" stroke-linecap="round"/>
+  <!-- Sparkles amarelos -->
+  <path d="M44 9L55 3.5" stroke="#F5C200" stroke-width="3" stroke-linecap="round"/>
+  <path d="M47 17L50 14.5" stroke="#F5C200" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M20 18L22 20" stroke="#F5C200" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M25 13L27 15" stroke="#F5C200" stroke-width="2.5" stroke-linecap="round"/>
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F5C200" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#F5C200" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
+</svg>
