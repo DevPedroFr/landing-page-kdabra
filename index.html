@@ -33,6 +33,7 @@
     --current-glow: var(--brand-glow);
     --current-hover: var(--brand-hover);
     --current-pattern-color: var(--brand-pattern-color);
+    --accent-rgb: 245, 194, 0;
     
     --radius: 12px;
     --font: 'Manrope', sans-serif;
@@ -558,37 +559,57 @@
     border-bottom: 1px solid var(--border);
     border-left: 3px solid transparent;
     cursor: default;
-    transition: all var(--transition-smooth);
+    transition: background 0.35s ease, border-left-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
     position: relative;
+    overflow: hidden;
+  }
+
+  .step::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(var(--accent-rgb, 200,160,50), 0.06) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
   }
 
   .step:hover {
     border-left-color: var(--current-accent);
     background: var(--surface2);
+    transform: translateX(6px);
+    box-shadow: -3px 0 18px -4px rgba(var(--accent-rgb, 200,160,50), 0.25);
   }
+
+  .step:hover::before { opacity: 1; }
 
   .step-num {
     font-family: var(--mono);
     font-size: 2.2rem;
     font-weight: 700;
-    color: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.25);
     min-width: 4rem;
     flex-shrink: 0;
     line-height: 1;
     padding-top: 0.15rem;
     letter-spacing: -0.02em;
-    transition: color var(--transition-smooth);
+    transition: color 0.35s ease, transform 0.35s ease, text-shadow 0.35s ease;
+    display: inline-block;
   }
 
-  .step:hover .step-num { color: var(--current-accent); }
+  .step:hover .step-num {
+    color: var(--current-accent);
+    transform: scale(1.15);
+    text-shadow: 0 0 18px rgba(var(--accent-rgb, 200,160,50), 0.5);
+  }
 
   .step-line { display: none; }
 
   .step-text {
     flex: 1;
-    opacity: 0;
-    transform: translateX(-14px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0.6;
+    transform: translateX(8px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
   }
 
   .step:hover .step-text {
@@ -596,13 +617,14 @@
     transform: translateX(0);
   }
 
-  .step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; transition: color 0.35s ease; }
   .step:hover h3 { color: var(--current-accent); }
   .step p { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
 
   @media (hover: none) {
     .step-text { opacity: 1 !important; transform: none !important; }
-    .step-num { color: var(--current-accent) !important; }
+    .step-num { color: var(--current-accent) !important; transform: none !important; }
+    .step:hover { transform: none !important; }
   }
 
   /* ============================================
@@ -1433,6 +1455,7 @@ const niches = [
   { 
     name: 'Saúde',
     accent: '#F5C200',
+    accentRgb: '245, 194, 0',
     accentHover: '#c9a500',
     glow: 'rgba(245,194,0,0.2)',
     patternColor: 'rgba(245,194,0,0.05)',
@@ -1448,6 +1471,7 @@ const niches = [
   { 
     name: 'Imobiliário',
     accent: '#22D3EE',
+    accentRgb: '34, 211, 238',
     accentHover: '#06b6d4',
     glow: 'rgba(34,211,238,0.2)',
     patternColor: 'rgba(34,211,238,0.05)',
@@ -1463,6 +1487,7 @@ const niches = [
   { 
     name: 'Jurídico',
     accent: '#A78BFA',
+    accentRgb: '167, 139, 250',
     accentHover: '#8b5cf6',
     glow: 'rgba(167,139,250,0.2)',
     patternColor: 'rgba(167,139,250,0.05)',
@@ -1514,6 +1539,7 @@ function applyNicheTheme(idx) {
   
   // Smoothly update CSS variables
   document.documentElement.style.setProperty('--current-accent', niche.accent);
+  document.documentElement.style.setProperty('--accent-rgb', niche.accentRgb);
   document.documentElement.style.setProperty('--current-glow', niche.glow);
   document.documentElement.style.setProperty('--current-hover', niche.accentHover);
   document.documentElement.style.setProperty('--current-pattern-color', niche.patternColor);
@@ -1544,6 +1570,7 @@ function applyNicheTheme(idx) {
 // Reset to brand yellow
 function resetToBrand() {
   document.documentElement.style.setProperty('--current-accent', brandYellow);
+  document.documentElement.style.setProperty('--accent-rgb', '245, 194, 0');
   document.documentElement.style.setProperty('--current-glow', brandGlow);
   document.documentElement.style.setProperty('--current-hover', brandHover);
   document.documentElement.style.setProperty('--current-pattern-color', 'rgba(245, 158, 11, 0.05)');
