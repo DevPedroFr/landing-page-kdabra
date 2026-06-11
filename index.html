@@ -430,7 +430,7 @@
   
   .phone-name { font-weight: 700; font-size: 0.9rem; color: #000; }
   .phone-status { font-size: 0.72rem; color: rgba(0,0,0,0.6); }
-  .phone-body { padding: 1rem 0.75rem 0.5rem; min-height: 280px; display: flex; flex-direction: column; gap: 0.6rem; }
+  .phone-body { padding: 1rem 0.75rem 0.5rem; min-height: 280px; max-height: 280px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.6rem; }
   .phone-footer {
     padding: 0.75rem;
     border-top: 1px solid var(--border);
@@ -470,6 +470,65 @@
   }
   
   @keyframes bubbleIn { to { opacity: 1; transform: translateY(0); } }
+
+  /* FAQ CHATBOT */
+  .faq-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-self: stretch;
+  }
+  .faq-option-btn {
+    background: var(--surface);
+    border: 1px solid var(--current-accent);
+    color: var(--current-accent);
+    border-radius: 10px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.78rem;
+    font-family: var(--font);
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition: all var(--transition-fast);
+    opacity: 0;
+    transform: translateX(-8px);
+    animation: faqOptIn 0.3s ease forwards;
+  }
+  .faq-option-btn:nth-child(1) { animation-delay: 0.05s; }
+  .faq-option-btn:nth-child(2) { animation-delay: 0.13s; }
+  .faq-option-btn:nth-child(3) { animation-delay: 0.21s; }
+  .faq-option-btn:nth-child(4) { animation-delay: 0.29s; }
+  @keyframes faqOptIn { to { opacity: 1; transform: translateX(0); } }
+  .faq-option-btn:hover { background: var(--surface2); transform: translateX(4px); }
+  .faq-start-btn {
+    align-self: flex-start;
+    background: var(--current-accent);
+    color: #000;
+    border: none;
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-size: 0.78rem;
+    font-family: var(--font);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    opacity: 0;
+    animation: bubbleIn 0.4s ease 0.25s forwards;
+  }
+  .faq-start-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+  .faq-back-btn {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 20px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.74rem;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+  .faq-back-btn:hover { border-color: var(--current-accent); color: var(--current-accent); }
 
   .hero-glow {
     position: absolute;
@@ -1638,32 +1697,88 @@ const observer = new IntersectionObserver((entries) => {
 observer.observe(nichesSection);
 
 // ============================================
-// PHONE CHAT ANIMATION
+// FAQ CHATBOT
 // ============================================
-const chatScript = [
-  { from: 'bot', text: 'Olá! Como posso ajudar você hoje?', delay: 800 },
-  { from: 'user', text: 'Quero agendar uma consulta', delay: 2000 },
-  { from: 'bot', text: 'Claro! Qual o melhor horário para você?', delay: 3400 },
-  { from: 'user', text: 'Amanhã às 14h', delay: 5000 },
-  { from: 'bot', text: 'Perfeito. Agendamento confirmado para amanhã às 14h.', delay: 6400 },
+const faqItems = [
+  { q: 'O que vocês automatizam?',   a: 'Atendimento, agendamentos, relatórios, integrações — qualquer tarefa que sua equipe repete todo dia.' },
+  { q: 'Quanto tempo leva?',          a: 'A maioria das soluções vai ao ar em 2 a 4 semanas, após um diagnóstico gratuito da sua operação.' },
+  { q: 'Funciona pra minha área?',    a: 'Sim! Clínicas, imobiliárias, escritórios jurídicos e mais — tudo personalizado para o seu contexto.' },
+  { q: 'Qual o primeiro passo?',      a: 'Solicite um diagnóstico gratuito. Mapeamos onde você perde tempo e mostramos o caminho.' },
 ];
 
-function renderChat() {
-  const body = document.getElementById('phoneBody');
-  body.innerHTML = '';
-  chatScript.forEach(({ from, text, delay }) => {
+function addBubble(body, from, text, delay = 0) {
+  return new Promise(resolve => {
     setTimeout(() => {
-      const bubble = document.createElement('div');
-      bubble.className = `bubble bubble-${from}`;
-      bubble.textContent = text;
-      body.appendChild(bubble);
+      const el = document.createElement('div');
+      el.className = `bubble bubble-${from}`;
+      el.textContent = text;
+      body.appendChild(el);
       body.scrollTop = body.scrollHeight;
+      resolve(el);
     }, delay);
   });
-  const totalDuration = chatScript[chatScript.length - 1].delay + 3000;
-  setTimeout(renderChat, totalDuration);
 }
-renderChat();
+
+function showFaqOptions(body) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'faq-options';
+  faqItems.forEach(item => {
+    const btn = document.createElement('button');
+    btn.className = 'faq-option-btn';
+    btn.textContent = item.q;
+    btn.addEventListener('click', () => {
+      wrapper.remove();
+      addBubble(body, 'user', item.q).then(() => {
+        addBubble(body, 'bot', item.a, 850).then(() => {
+          setTimeout(() => showBackBtn(body), 450);
+        });
+      });
+    });
+    wrapper.appendChild(btn);
+  });
+  body.appendChild(wrapper);
+  body.scrollTop = body.scrollHeight;
+}
+
+function showBackBtn(body) {
+  const btn = document.createElement('button');
+  btn.className = 'faq-back-btn';
+  btn.textContent = '← Outras perguntas';
+  btn.addEventListener('click', () => {
+    btn.remove();
+    addBubble(body, 'bot', 'Mais alguma dúvida?', 200).then(() => {
+      setTimeout(() => showFaqOptions(body), 650);
+    });
+  });
+  body.appendChild(btn);
+  body.scrollTop = body.scrollHeight;
+}
+
+function initFaqChat() {
+  const body = document.getElementById('phoneBody');
+  body.innerHTML = '';
+  addBubble(body, 'bot', 'Olá! Sou o assistente da KDABRA.', 700).then(() => {
+    addBubble(body, 'bot', 'Posso tirar dúvidas sobre automação 👇', 1600).then(() => {
+      setTimeout(() => {
+        const cta = document.createElement('button');
+        cta.className = 'faq-start-btn';
+        cta.textContent = 'Ver perguntas frequentes →';
+        cta.addEventListener('click', () => {
+          cta.remove();
+          addBubble(body, 'user', 'Ver perguntas frequentes →').then(() => {
+            addBubble(body, 'bot', 'Claro! Sobre o que quer saber?', 850).then(() => {
+              setTimeout(() => showFaqOptions(body), 400);
+            });
+          });
+        });
+        body.appendChild(cta);
+        body.scrollTop = body.scrollHeight;
+      }, 700);
+    });
+  });
+}
+
+initFaqChat();
 
 // ============================================
 // SCROLL REVEAL
